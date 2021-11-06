@@ -60,6 +60,7 @@ cngpijmon/po/POTFILES
 printui/po/*.gmo
 printui/po/POTFILES
 file_lists
+logs/
 
 # binaries generated when compiling
 cnijusb

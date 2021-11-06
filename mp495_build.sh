@@ -2,7 +2,7 @@
 
 # This script will try and build driver for mp495 on an 64bit system.
 
-DESTDIR=/opt/mp495-2
+DESTDIR=/opt/mp495
 ROOT=`pwd`
 LOGS=$ROOT/logs
 
@@ -96,7 +96,6 @@ configureAll () {
     echo "  ppd.."
     pushd ppd > /dev/null 2>&1 || abort "could not change to ppd folder" 1
     ./autogen.sh --prefix=$DESTDIR --enable-ppdpath=$DESTDIR/share/ppd --program-suffix=mp495  > $LOGS/ppd.autogen.log 2>&1
-    #./configure --prefix=$DESTDIR --enable-ppdpath=$DESTDIR/share/ppd --program-suffix=mp495 > $LOGS/ppd.configure.log 2>&1
     popd > /dev/null
 
     echo "  cnijfilter.."

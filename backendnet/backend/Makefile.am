@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-backendnet_bindir = /usr/lib/cups/backend
+backendnet_bindir = /opt/mp495/lib/cups/backend
 backendnet_bin_PROGRAMS = cnijnet
 transform = 
 

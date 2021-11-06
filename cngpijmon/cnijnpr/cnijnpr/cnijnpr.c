@@ -33,7 +33,6 @@
 #include <signal.h>
 #include <sys/ioctl.h>
 #include <net/if.h>
-#include <sys/sysctl.h>
 #include <config.h>
 
 #include <dlfcn.h>

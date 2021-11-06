@@ -675,8 +675,8 @@ static short getDeviceURI( char *pDestName, char *pDeviceURI, short bufSize)
 					*pResponse;					// Pointer to CUPS IPP response.
 	ipp_attribute_t	*pAttribute;				// Pointer to CUPS attributes.
 	cups_lang_t		*pLanguage;					// Pointer to language.
-	char			*pPrinter = NULL;			// Pointer to printer name.
-	char			*pDUri = NULL;				// Pointer to Device uri.
+	const char		*pPrinter = NULL;			// Pointer to printer name.
+	const char		*pDUri = NULL;				// Pointer to Device uri.
 	short			retVal = -1;	// Return value.
 /*** Parameters end ***/
 	
@@ -688,8 +688,8 @@ static short getDeviceURI( char *pDestName, char *pDeviceURI, short bufSize)
 	else {
 		pRequest = ippNew();
 		
-		pRequest->request.op.operation_id = CUPS_GET_PRINTERS;
-		pRequest->request.op.request_id   = 1;
+		ippSetOperation(pRequest, CUPS_GET_PRINTERS);
+		ippSetRequestId(pRequest, 1);
 		
 		pLanguage = bjcupsLangDefault();	// cupsLangDefault() -> bjcupsLangDefault() for cups-1.1.19
 		
@@ -698,29 +698,29 @@ static short getDeviceURI( char *pDestName, char *pDeviceURI, short bufSize)
 		ippAddString(pRequest, IPP_TAG_OPERATION, IPP_TAG_URI, "printer-uri", NULL, NULL);
 		
 		if ((pResponse = cupsDoRequest(pHTTP, pRequest, "/")) != NULL) {
-			if (pResponse->request.status.status_code > IPP_OK_CONFLICT) {
+			if (ippGetStatusCode(pResponse) > IPP_OK_CONFLICT) {
 				fputs("ERROR: IPP ERROR\n", stderr);
 				goto onErr;
 			}
 			else {
-				pAttribute = pResponse->attrs;
+				pAttribute = ippFirstAttribute(pResponse);
 
 				while (pAttribute != NULL) {
-					while (pAttribute != NULL && pAttribute->group_tag != IPP_TAG_PRINTER) {
-						pAttribute = pAttribute->next;
+					while (pAttribute != NULL && ippGetGroupTag(pAttribute) != IPP_TAG_PRINTER) {
+						pAttribute = ippNextAttribute(pResponse);
 					}
 					if (pAttribute == NULL) {
 						break;
 					}
 					
-					while (pAttribute != NULL && pAttribute->group_tag == IPP_TAG_PRINTER) {
-						if (strcmp(pAttribute->name, "printer-name") == 0 && pAttribute->value_tag == IPP_TAG_NAME) {
-							pPrinter = pAttribute->values[0].string.text;
+					while (pAttribute != NULL && ippGetGroupTag(pAttribute) == IPP_TAG_PRINTER) {
+						if (strcmp(ippGetName(pAttribute), "printer-name") == 0 && ippGetValueTag(pAttribute) == IPP_TAG_NAME) {
+							pPrinter = ippGetString(pAttribute, 0, NULL);
 						}
-						if (strcmp(pAttribute->name, "device-uri") == 0 && pAttribute->value_tag == IPP_TAG_URI) {
-							pDUri = pAttribute->values[0].string.text;
+						if (strcmp(ippGetName(pAttribute), "device-uri") == 0 && ippGetValueTag(pAttribute) == IPP_TAG_URI) {
+							pDUri = ippGetString(pAttribute, 0, NULL);
 						}
-						pAttribute = pAttribute->next;
+						pAttribute = ippNextAttribute(pResponse);
 					}
 
 					if (strcasecmp(pDestName, pPrinter) == 0) {
@@ -729,7 +729,7 @@ static short getDeviceURI( char *pDestName, char *pDeviceURI, short bufSize)
 					}
 					
 					if (pAttribute != NULL)
-						 pAttribute = pAttribute->next;
+						 pAttribute = ippNextAttribute(pResponse);
 				}
 			}
 			
@@ -774,7 +774,7 @@ int main(int argc, char* argv[])
 	short		canon_backend_flag = 0;
 	short		add_bidi = 0;
 	short		add_direct = 0;
-	char 		*p_ppd_name;
+	const char	*p_ppd_name;
 	ppd_file_t	*p_ppd;
 	
 

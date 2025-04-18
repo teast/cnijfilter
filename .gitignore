@@ -63,16 +63,19 @@ file_lists
 logs/
 
 # binaries generated when compiling
-cnijusb
-cnijnetprn
-cnijnet
-cngpij
-cnijnpr
-cngpijmon
-cif
-lgmon
-printui
-pstocanonij
+cnijusb/cnijusb
+cnijnetprn/cnijnetprn
+cnijnet/cnijnet
+cngpij/cngpij
+cngpijmon/cnijnpr/cnijnpr/cnijnpr
+cngpijmon/src/cngpijmon
+backend/src/cnijusb
+backendnet/backend/cnijnet
+backendnet/lmonitor/cnijnetprn
+cnijfilter/src/cif
+lgmon/src/lgmon
+printui/src/printui
+pstocanonij/filter/pstocanonij
 
 # Generated Makefile
 # (meta build system like autotools,

@@ -863,7 +863,12 @@ static void SetSpinButtonRegiType001( LPREGICOMPTYPE001RES lpRegiRes, void *lpGW
 
 	while( pCurrentCtrlItem->CtrlName != NULL ){
 			GtkAdjustment *pAdjustment;
-			pAdjustment = gtk_spin_button_get_adjustment(LookupWidget(lpWork->regi_dialog, pCurrentCtrlItem->CtrlName));
+			GtkWidget *widget = LookupWidget(lpWork->regi_dialog, pCurrentCtrlItem->CtrlName);
+			if (!GTK_IS_SPIN_BUTTON(widget)) {
+			  continue;
+			}
+			pAdjustment = gtk_spin_button_get_adjustment(GTK_SPIN_BUTTON(widget));
+			//pAdjustment = gtk_spin_button_get_adjustment(LookupWidget(lpWork->regi_dialog, pCurrentCtrlItem->CtrlName));
 			pAdjustment->value = pCurrentCtrlItem->nDefault;
 			pAdjustment->lower = pCurrentCtrlItem->nMin;
 			pAdjustment->upper = pCurrentCtrlItem->nMax;

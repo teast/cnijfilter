@@ -7,6 +7,38 @@ This is a copy from Canons own cnijfilter package that is used for several of Ca
 The solution I have done (because I have yet to figure out how to write correct ebuild files) is to create `mp495_build.sh` script for configure,build,install and symlink everything to make it work.
 
 I have built this driver for mp495 64-bit arch into folder `/opt/mp495`. And then I have doen symlink to pretty much every file in `/opt/mp495`.
+You will also need to do symlinks that only contains the library filenames up to (and included) ".so". For example `libcnbpcmcm369.so.8.0.1` should have a symlink `libcnbpcmcm369.so`.
+
+## Architecture
+
+This script was created to support 64-bit architecture. If you are using a 32-bit architecture (for example `i686`) you need to change `ARCH` variable in `mp495_build.sh` so it points to 32 instead of 64.
+
+## Symlinks
+
+I did a symlink to all files in `/opt/mp495/bin` to `/usr/bin`, example:
+
+```bash
+ln -s /opt/mp495/bin/printuimp495 /usr/bin
+# etc
+```bash
+
+I did the same for all files in `/opt/mp495/lib/` including folders, example:
+
+```bash
+ln -s /opt/mp495/lib/libcnbpcmcm369.so.8.0.1 /usr/lib
+ln -s /opt/mp495/lib/bjlib /usr/lib
+ln -s /opt/mp495/lib/cusp/backend/cnijnet /usr/lib/cups/backend/cnijnet
+# etc
+```bash
+
+And also, to have ".so" files I did:
+```bash
+cd /usr/lib
+ln -s libcnbpcmcm369.so.8.0.1 libcnbpcmcm369.so
+# etc
+```bash
+
+And I continue to do this for all folders/files found under `/opt/mp495`.
 
 ## How to build cnijfilter
 

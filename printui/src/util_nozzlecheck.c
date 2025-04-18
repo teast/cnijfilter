@@ -248,7 +248,7 @@ static short SetPixMapNozzleCheckType000( GtkWidget *dialog )
 	char *modelName;
 	char buf[CMD_BUF_MAX_SIZE];
 	GtkWidget *pixmap, *frame;
-	GtkPixmap *map, *iconMask;
+	GdkPixmap *map, *iconMask;
 	GtkStyle *style;
 	short result = -1;
 

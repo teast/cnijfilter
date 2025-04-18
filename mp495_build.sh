@@ -1,10 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
 # This script will try and build driver for mp495 on an 64bit system.
 
 DESTDIR=/opt/mp495
 ROOT=`pwd`
 LOGS=$ROOT/logs
+ARCH=libs_bin64
 
 abort () {
 
@@ -33,6 +34,7 @@ cleanLibrary () {
     LFILE=`echo "$1" | tr / _`
     pushd $1 > /dev/null 2>&1 || abort "could not change to $1 folder" 1
     make clean > $LOGS/$LFILE.clean.log 2>&1 || abort "Error cleaning $1" 1
+    make distclean > $LOGS/$LFILE.clean.log 2>&1 || abort "Error cleaning $1" 1
     popd > /dev/null
 }
 
@@ -82,7 +84,7 @@ configureAll () {
     pushd backendnet > /dev/null 2>&1 || abort "could not change to backendnet folder" 1
     cat backend/Makefile.am | sed "s|backendnet_bindir.*|backendnet_bindir = $DESTDIR/lib/cups/backend|g" > backend/Makefile.am~  || abort "Could not change backendnet_bindir configuration in backendnet/backend/Makefile.am" 1
     mv backend/Makefile.am~ backend/Makefile.am || abort "Could not update original backendnet/backend/Makefile.am with backendnet_bindir changes" 1
-    ./autogen.sh --prefix=$DESTDIR --enable-progpath=$DESTDIR/bin LDFLAGS="-L$ROOT/com/libs_bin64" > $LOGS/backendnet.autogen.log 2>&1
+    ./autogen.sh --prefix=$DESTDIR --enable-progpath=$DESTDIR/bin LDFLAGS="-L$ROOT/com/$ARCH" > $LOGS/backendnet.autogen.log 2>&1
     popd > /dev/null
 
     echo "  cngpijmon/cnijnpr.."
@@ -166,19 +168,19 @@ installAll () {
     installLibrary cngpijmon
 
     echo "Installing not-compiled files..."
-    install -c -m 755 com/libs_bin64/libcnnet.so.* $DESTDIR/lib || abort "Could not install libcnnet.so.*" 1
+    install -c -m 755 com/$ARCH/libcnnet.so.* $DESTDIR/lib || abort "Could not install libcnnet.so.*" 1
     # TODO: No lp owner for cnnet.ini in gentoo at the moment... 
     #install -c -m 644 -o lp -g lp com/ini/cnnet.ini $DESTDIR/lib/bjlib || abort "Could not install cnnet.ini" 1
     install -c -m 644 com/ini/cnnet.ini $DESTDIR/lib/bjlib || abort "Could not install cnnet.ini" 1
-    install -c -m 755 com/libs_bin64/libcnnet* $DESTDIR/lib || abort "Could not install libcnnet*" 1
+    install -c -m 755 com/$ARCH/libcnnet* $DESTDIR/lib || abort "Could not install libcnnet*" 1
 
     echo "  mp495 specific files.."
-    install -c -m 755 369/libs_bin64/libcnbpcmcm369.so.* $DESTDIR/lib || abort "Could not install libcnbpcmcm369.so.*" 1
-    install -c -m 755 369/libs_bin64/libcnbpcnclapi369.so.* $DESTDIR/lib || abort "Could not install libcnbpcnclapi369.so.*" 1
-    install -c -m 755 369/libs_bin64/libcnbpcnclbjcmd369.so.* $DESTDIR/lib || abort "Could not install libcnbpcnclbjcmd369.so.*" 1
-    install -c -m 755 369/libs_bin64/libcnbpcnclui369.so.* $DESTDIR/lib || abort "Could not install libcnbpcnclui369.so.*" 1
-    install -c -m 755 369/libs_bin64/libcnbpess369.so.* $DESTDIR/lib || abort "Could not install libcnbpess369.so.*" 1
-    install -c -m 755 369/libs_bin64/libcnbpo369.so.* $DESTDIR/lib || abort "Could not install libcnbpo369.so.*" 1
+    install -c -m 755 369/$ARCH/libcnbpcmcm369.so.* $DESTDIR/lib || abort "Could not install libcnbpcmcm369.so.*" 1
+    install -c -m 755 369/$ARCH/libcnbpcnclapi369.so.* $DESTDIR/lib || abort "Could not install libcnbpcnclapi369.so.*" 1
+    install -c -m 755 369/$ARCH/libcnbpcnclbjcmd369.so.* $DESTDIR/lib || abort "Could not install libcnbpcnclbjcmd369.so.*" 1
+    install -c -m 755 369/$ARCH/libcnbpcnclui369.so.* $DESTDIR/lib || abort "Could not install libcnbpcnclui369.so.*" 1
+    install -c -m 755 369/$ARCH/libcnbpess369.so.* $DESTDIR/lib || abort "Could not install libcnbpess369.so.*" 1
+    install -c -m 755 369/$ARCH/libcnbpo369.so.* $DESTDIR/lib || abort "Could not install libcnbpo369.so.*" 1
     install -c -m 644 369/database/cifmp495.conf $DESTDIR/lib/bjlib || abort "Could not install cifmp495.conf" 1
     install -c -m 644 369/database/cnb_3690.tbl $DESTDIR/lib/bjlib || abort "Could not install cnb_3690.tbl" 1
     install -c -m 644 369/database/cnbpname369.tbl $DESTDIR/lib/bjlib || abort "Could not install cnbpname369.tbl" 1
@@ -255,7 +257,7 @@ elif [ "$1" = "install" ]; then
     installAll
 elif [ "$1" = "clean" ]; then
     cleanAll
-    make clean > $LOGS/general.clean.log 2>&1 || abort "Error doing general cleanup" 1
+    #make clean > $LOGS/general.clean.log 2>&1 || abort "Error doing general cleanup" 1
 elif [ "$1" = "symlink" ]; then
     symlinkAll
 elif [ "$1" = "symlinkdry" ]; then

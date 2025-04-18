@@ -169,7 +169,7 @@ static gboolean IsStrEmpty( char *str )
 	}
 }
 
-void SetComboBoxItems(GtkWidget *combo, char **Keytbl, int n, int index)
+void SetComboBoxItems(GtkWidget *combo, const char **Keytbl, int n, int index)
 {
 	int		i;
 

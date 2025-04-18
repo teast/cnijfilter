@@ -39,6 +39,8 @@
 #include "bscc2sts.h"
 #include "commonfunc.h"
 
+#define ENDTAG "\0"
+
 /*
  * prototypes ...
  */

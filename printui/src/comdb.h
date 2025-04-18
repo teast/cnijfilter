@@ -60,4 +60,7 @@ int UpdateMenuLink(short id, short value);
 void DumpDataBase(int id);
 int SetCallbackTableFunc(short id, void (*func)(void *arg), void* func_data);
 
+gboolean IsAvailableBlackAdjustment();
+gboolean IsAvailableBlackAdjustmentMode();
+
 void my_printui_quit();

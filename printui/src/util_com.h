@@ -49,7 +49,7 @@ short ExecCommonDialogType001_001( char *dailogName );
 short ExecCommonDialogType001_002( char *dailogName );
 short ExecCommonDialogType001_003( char *dailogName );
 int KeyToIndex(char **Keytbl, int n, char *type);
-void SetComboBoxItems(GtkWidget *combo, char **Keytbl, int n, int index);
+void SetComboBoxItems(GtkWidget *combo, const char **Keytbl, int n, int index);
 int UtilMessageBox(char *message, char *title, unsigned int flag);
 void OutputCmdType001( char *cmdPtr, long cmdLen );
 void OutputCmdType002( char *cmdPtr, long cmdLen, short isSetTime );

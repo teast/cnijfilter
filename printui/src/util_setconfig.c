@@ -375,7 +375,7 @@ void InitCreate_SetConfigType001_QuietMode( void )
 	gCurrentQuietMode = 0;
 }
 
- static int GetAutoPowerIndex(char **Keytbl, int n, char *mode)
+ static int GetAutoPowerIndex(const char **Keytbl, int n, char *mode)
 {
 	int			i;
 	
@@ -454,8 +454,8 @@ static void SetDefaultSetConfigType001_AutoPower( GtkWidget *dialog, short onInd
 	onSize = sizeof(setconfig_type001_02_onlist)/sizeof(*setconfig_type001_02_onlist) - 1;
 	offSize = sizeof(setconfig_type001_02_offlist)/sizeof(*setconfig_type001_02_offlist) - 1;
 
-	SetComboBoxItems(powerOnCombo, setconfig_type001_02_onlist, onSize, onIndex);		
-	SetComboBoxItems(powerOffCombo, setconfig_type001_02_offlist, offSize , offIndex);
+	SetComboBoxItems(powerOnCombo, (const char **) setconfig_type001_02_onlist, onSize, onIndex);		
+	SetComboBoxItems(powerOffCombo, (const char **) setconfig_type001_02_offlist, offSize , offIndex);
 
 	gtk_widget_show( powerOnCombo );
 	gtk_widget_show( powerOffCombo );
@@ -650,7 +650,7 @@ on_setconfig_type001_button1_clicked
 		offSize = sizeof(setconfig_type001_02_offlist)/sizeof(*setconfig_type001_02_offlist);
 
 		gCurrentAutoPowerOnIndex = GetAutoPowerIndex( setconfig_type001_02_onlist, onSize, onStr );
-		gCurrentAutoPowerOffIndex = GetAutoPowerIndex( setconfig_type001_02_offlist, offSize, offStr );
+		gCurrentAutoPowerOffIndex = GetAutoPowerIndex((const char **) setconfig_type001_02_offlist, offSize, offStr );
 	}	
 	else if ( lpWk->uiType == UI_PAPERSOURCESETTINGS_TYPE001 ) {
 		gCurrentPaperSourceSettingsValue = 
@@ -686,16 +686,16 @@ on_setconfig_type001_button3_clicked
 	if ( CheckWorkType001() != 0 ) goto Err;
 
 	if ( gUiType == UI_CUSTOMSETTINGS_TYPE001 ){
-		SetDefaultSetConfigType001_CustomSettings( button, 0, 0, CUSTOM_SETTINGS_TYPE001_RADIOBUTTON_DEFAULT );
+		SetDefaultSetConfigType001_CustomSettings( GTK_WIDGET(button), 0, 0, CUSTOM_SETTINGS_TYPE001_RADIOBUTTON_DEFAULT );
 	}	
 	else if ( gUiType == UI_AUTOPOWER_TYPE001 ) {
 
 	}	
 	else if ( gUiType == UI_PAPERSOURCESETTINGS_TYPE001 ) {
-		SetDefaultSetConfigType001_PaperSourceSettings( button, PAPERSOURCE_SETTINGS_TYPE001_RADIOBUTTON_DEFAULT );
+		SetDefaultSetConfigType001_PaperSourceSettings( GTK_WIDGET(button), PAPERSOURCE_SETTINGS_TYPE001_RADIOBUTTON_DEFAULT );
 	}	
 	else if ( gUiType ==  UI_QUIET_TYPE001 ){
-		SetDefaultSetConfigType001_QuietMode( button, 0 );
+		SetDefaultSetConfigType001_QuietMode( GTK_WIDGET(button), 0 );
 	}
 Err:
 	return;
@@ -891,7 +891,7 @@ static void SetDefaultSetConfigType003( LPSETCONFIGCOMPTYPE003RES lpRes, void *l
 
 	if( DisableSignal() )
 	{
-		SetComboBoxItems(combo, lpWork->lpInkCartridgeMsgInfo->type, index_num, currentIndex);
+		SetComboBoxItems(combo, (const char **)lpWork->lpInkCartridgeMsgInfo->type, index_num, currentIndex);
 	}
 	EnableSignal();
 
@@ -1058,7 +1058,7 @@ on_setconfig_type003_button3_clicked   (GtkButton       *button,
 	/* Ver.2.80 */
 	if( DisableSignal() )
 	{
-		SetComboBoxItems(combo, lpWk->lpInkCartridgeMsgInfo->type, index_num, defIndex );
+		SetComboBoxItems(combo, (const char **)lpWk->lpInkCartridgeMsgInfo->type, index_num, defIndex );
 	}
 	EnableSignal();
 

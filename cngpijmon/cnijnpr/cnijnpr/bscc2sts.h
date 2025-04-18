@@ -72,4 +72,4 @@ typedef struct {
 /*
  * prototypes ...
  */
-int bscc2sts(char *p_prinname, char *bscc, output_dev *Odev, bscc2sts_tbl *Pr_sts);
+int bscc2sts(const char *p_prinname, char *bscc, output_dev *Odev, bscc2sts_tbl *Pr_sts);

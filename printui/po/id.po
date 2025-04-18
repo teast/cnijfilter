@@ -9,6 +9,7 @@ msgstr ""
 "PO-Revision-Date: 2010-07-15 9:49+0900\n"
 "Last-Translator: CANON INC.\n"
 "Language-Team: CANON INC.\n"
+"Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n."
@@ -1359,8 +1360,8 @@ msgid ""
 "Paper Source: %s is not available for the selected Media Type.\n"
 "Paper Source setting has been changed to %s."
 msgstr ""
-"Setelan Sumber Kertas saat ini tidak tersedia untuk Tipe Media yang dipilih.\n"
-"Setelan Sumber Kertas telah diubah."
+"Setelan Sumber %s Kertas saat ini tidak tersedia untuk Tipe Media yang dipilih.\n"
+"Setelan Sumber Kertas telah diubah. %s."
 
 #. bkenh_enh
 #: po/keystr.h:312

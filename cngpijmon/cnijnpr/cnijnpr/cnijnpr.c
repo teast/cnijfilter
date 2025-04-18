@@ -34,6 +34,7 @@
 #include <sys/ioctl.h>
 #include <net/if.h>
 #include <config.h>
+#include <unistd.h>
 
 #include <dlfcn.h>
 #include "cncl.h"

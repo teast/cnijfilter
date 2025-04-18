@@ -30,6 +30,8 @@
 #include "bjcupsmon_ui.h"
 #include "bjcupsmon_funcprot.h"
 
+#include "interface.h"
+
 /*** Global parameters ***/
 #ifdef USE_libglade
 PRIVATE GladeXML	*gXmlMainWnd = NULL;		// Pointer to glade xml of main window.
@@ -927,7 +929,7 @@ PUBLIC void updateUISettings(ST_PrinterStatus *pPrinterStatus, ENUM_OtherMessage
 			
 			if( pPrinterStatus->leverPosition != ID_LEVER_POSITION_INVALID 
 			  && pPrinterStatus->leverPosition != ID_LEVER_POSITION_NONE ) 
-				strncpy(tempBuf, dgettext(PACKAGE, ID_STS_MESSAGE_PAPERTHICKNESS_LEVERPOSITION), MAX_BUF_SIZE-1);
+				strncpy(tempBuf, dgettext(PACKAGE, gSTSMessageTable[ID_STS_MESSAGE_PAPERTHICKNESS_LEVERPOSITION]), MAX_BUF_SIZE-1);
 				//strncpy(tempBuf, dgettext(PACKAGE, N_("Paper Thickness Lever Position: ")), MAX_BUF_SIZE-1);
 			else
 				strncpy(tempBuf, "                                                ", MAX_BUF_SIZE-1);
@@ -944,12 +946,12 @@ PUBLIC void updateUISettings(ST_PrinterStatus *pPrinterStatus, ENUM_OtherMessage
 					break;
 				
 				case ID_LEVER_POSITION_LEFT:	// Left.
-					strcat(tempBuf, dgettext(PACKAGE,ID_STS_MESSAGE_LEFT));
+					strcat(tempBuf, dgettext(PACKAGE, gSTSMessageTable[ID_STS_MESSAGE_LEFT]));
 					//strcat(tempBuf, dgettext(PACKAGE, N_("Left")));
 					break;
 				
 				case ID_LEVER_POSITION_RIGHT:	// Right.
-					strcat(tempBuf, dgettext(PACKAGE, ID_STS_MESSAGE_RIGHT));
+					strcat(tempBuf, dgettext(PACKAGE, gSTSMessageTable[ID_STS_MESSAGE_RIGHT]));
 					//strcat(tempBuf, dgettext(PACKAGE, N_("Right")));
 					break;
 				
